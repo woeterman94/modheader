@@ -23,7 +23,12 @@
 If you find ModHeader useful, please consider making a donation. If you use it for your company project, please ask your company to make a monthly donation!
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=3XFKZ8PCRB8P6&currency_code=USD&amount=5&source=url)
-<a href="https://www.buymeacoffee.com/scCieVdfj" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee"></a>
+
+<div>
+  <a href="https://www.buymeacoffee.com/scCieVdfj">
+    <img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee">
+  </a>
+</div>
 
 ## Features
 
@@ -41,8 +46,6 @@ If you find ModHeader useful, please consider making a donation. If you use it f
 ## Screenshots
 
 <img src="https://mod-header.appspot.com/images/ss1.png">
-<img src="https://mod-header.appspot.com/images/ss2.png">
-<img src="https://mod-header.appspot.com/images/ss3.png">
 
 ## Installation
 
