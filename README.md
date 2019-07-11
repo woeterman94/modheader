@@ -44,6 +44,12 @@ If you find ModHeader useful, please consider making a donation. If you use it f
 
 <img src="https://mod-header.appspot.com/images/ss1.png">
 
+## Forking and contribution
+
+Feel free to send pull requests to add new features to ModHeader. It will benefit everyone! That said, I reserve the rights to reject pull requests that does not seem useful, or if they add too much complexity for very little benefits.
+
+You may fork and redistribute ModHeader for a small group of friends / colleagues, but please do not impersonate ModHeader, or try to sell it for a profit. If  you use ModHeader in any commercial product, please let me know.
+
 ## Installation
 
 ModHeader does not require any extra tool for building. Simply load the src directory into Chrome / Firefox to start local development.
