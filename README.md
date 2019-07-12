@@ -53,3 +53,7 @@ You may fork and redistribute ModHeader for a small group of friends / colleague
 ## Installation
 
 ModHeader does not require any extra tool for building. Simply load the src directory into Chrome / Firefox to start local development.
+
+## Selenium usage
+
+If you need to use ModHeader for Selenium tests, please visit: https://github.com/hao1300/modheader_selenium
