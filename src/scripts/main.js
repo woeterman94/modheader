@@ -532,7 +532,7 @@ modHeader.controller('SortingController', function($filter, dataSource) {
 });
 
 modHeader.controller('AppController', function(
-    $scope, $mdSidenav, $mdUtil, $window, $sce,
+    $scope, $mdSidenav, $mdUtil, $window, $mdToast,
     dataSource, profileService, autocompleteService) {
   $scope.toggleSidenav = $mdUtil.debounce(function() {
     $mdSidenav('left').toggle();
@@ -549,4 +549,48 @@ modHeader.controller('AppController', function(
   $scope.autocompleteService = autocompleteService;
   $scope.dataSource = dataSource;
   $scope.profileService = profileService;
+
+  const tips = [
+    {text: 'Tip: You can switch between multiple profile'},
+    {text: 'Tip: You can export your profile to share with others'},
+    {text: 'Tip: Tab lock will apply the modification only to locked tab'},
+    {text: 'Tip: Add filter will let you use regex to limit modification'},
+    {text: 'Tip: Use the checkbox to quickly toggle header modification'},
+    {text: 'Tip: Click on the column name to sort'},
+    {text: 'Tip: Add filter also allows you to filter by resource type'},
+    {text: 'Tip: Go to profile setting to toggle comment column'},
+    {text: 'Tip: Append header value to existing one in profile setting'},
+    {text: 'Tip: Pause button will temporarily pause all modifications'},
+    {text: 'Tip: Go to cloud backup to retrieve your auto-synced profile'},
+    {
+      text: 'If you like ModHeader, please consider donating',
+      buttonText: 'Donate',
+      url: 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=3XFKZ8PCRB8P6&currency_code=USD&amount=5&source=url'
+    },
+    {
+      text: 'Enjoying ModHeader, leave us a review',
+      buttonText: 'Review',
+      url: navigator.userAgent.indexOf('Firefox') >= 0
+          ? 'https://addons.mozilla.org/firefox/addon/modheader-firefox/'
+          : 'https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj'
+    },
+  ];
+  const tip = tips[Math.floor(Math.random() * tips.length)];
+  $mdToast.show({
+    position: 'bottom',
+    controller: 'ToastCtrl',
+    controllerAs: 'ctrl',
+    bindToController: true,
+    locals: {toastMessage: tip.text, buttonText: tip.buttonText, url: tip.url},
+    templateUrl: 'footer.tmpl.html'
+  });
+});
+
+
+modHeader.controller('ToastCtrl', function($mdToast, $mdDialog, $document, $scope) {
+  let ctrl = this;
+
+  ctrl.goToUrl = function(url) {
+    browser.tabs.create({url: url});
+  };
 });
