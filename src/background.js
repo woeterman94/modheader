@@ -217,6 +217,7 @@ function setupHeaderModListener() {
 
 function onTabUpdated(tab) {
   if (tab.active) {
+    delete localStorage.currentTabUrl;
     // Since we don't have access to the "tabs" permission, we may not have
     // access to the url property all the time. So, match it against the URL
     // found during request modification.

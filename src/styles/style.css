@@ -1,6 +1,5 @@
 html, body {
   width: 600px;
-  height: 464px;
 }
 
 a {
@@ -38,7 +37,7 @@ body::-webkit-scrollbar {
 }
 
 .main-content {
-	height: 400px;
+	height: 100%;
 	margin-bottom: 60px;
 }
 
