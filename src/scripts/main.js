@@ -1,3 +1,4 @@
+const SPECIAL_CHARS = '^$&+?.()|{}[]/'.split('');
 const browser = chrome;
 const modHeader = angular.module('modheader-popup', ['ngMaterial']);
 modHeader.config(['$compileProvider', function ($compileProvider) {
@@ -16,16 +17,16 @@ modHeader.factory('dataSource', function($mdToast) {
   };
 
   dataSource.addFilter = function(filters) {
-    let urlPattern = '';
+    let urlRegex = '';
     if (localStorage.currentTabUrl) {
       const parser = document.createElement('a');
       parser.href = localStorage.currentTabUrl;
-      urlPattern = parser.origin + '/*';
+      urlRegex = parser.origin + '/.*';
     }
     filters.push({
       enabled: true,
       type: 'urls',
-      urlPattern: urlPattern
+      urlRegex: urlRegex
     });
   };
 
@@ -108,11 +109,11 @@ modHeader.factory('dataSource', function($mdToast) {
   };
 
   dataSource.createProfile = function() {
-    var index = 1;
+    const index = 1;
     while (isExistingProfileTitle_('Profile ' + index)) {
       ++index;
     }
-    var profile = {
+    const profile = {
         title: 'Profile ' + index,
         hideComment: true,
         headers: [],
@@ -128,6 +129,29 @@ modHeader.factory('dataSource', function($mdToast) {
 
   if (localStorage.profiles) {
     dataSource.profiles = angular.fromJson(localStorage.profiles);
+    for (let profile of dataSource.profiles) {
+      if (profile.filters) {
+        for (let filter of profile.filters) {
+          if (filter.urlPattern) {
+            const urlPattern = filter.urlPattern;
+            const joiner = [];
+            for (let i = 0; i < urlPattern.length; ++i) {
+              let c = urlPattern.charAt(i);
+              if (SPECIAL_CHARS.indexOf(c) >= 0) {
+                c = '\\' + c;
+              } else if (c == '\\') {
+                c = '\\\\';
+              } else if (c == '*') {
+                c = '.*';
+              }
+              joiner.push(c);
+            }
+            delete filter.urlPattern;
+            filter.urlRegex = joiner.join('');
+          }
+        }
+      }
+    }
   } else {
     dataSource.profiles = [];
   }

@@ -322,17 +322,17 @@
           <md-option value="types">Resource Type</md-option>
         </md-select>
         <md-autocomplete
-          md-search-text="filter.urlPattern"
+          md-search-text="filter.urlRegex"
           md-items="[]"
           ng-if="filter.type == 'urls'"
-          md-floating-label="*://*.google.com/*"
-          placeholder="*://*.google.com/*"
+          md-floating-label=".*://.*.google.com/.*"
+          placeholder=".*://.*.google.com/.*"
           class="comment-autocomplete"
           flex>
         </md-autocomplete>
         <md-button class="md-icon-button" aria-label="Help" md-no-ink
           ng-if="filter.type == 'urls'"
-          ng-click="openLink('https://developer.chrome.com/extensions/match_patterns')">
+          ng-click="openLink('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions')">
           <md-icon md-svg-src="images/ic_help_24px.svg"></md-icon>
         </md-button>
         <md-select ng-model="filter.resourceType" placeholder="Resource Type" flex
