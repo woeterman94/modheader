@@ -164,7 +164,7 @@ function modifyResponseHeaderHandler_(details) {
 function getChromeVersion() {
   let pieces = navigator.userAgent.match(/Chrom(?:e|ium)\/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/);
   if (pieces == null || pieces.length != 5) {
-      return undefined;
+      return {};
   }
   pieces = pieces.map(piece => parseInt(piece, 10));
   return {
