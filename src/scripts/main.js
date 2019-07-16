@@ -4,6 +4,31 @@ const modHeader = angular.module('modheader-popup', ['ngMaterial']);
 modHeader.config(['$compileProvider', function ($compileProvider) {
   $compileProvider.debugInfoEnabled(false);
 }]);
+
+function fixProfile(profile) {
+  if (profile.filters) {
+    for (let filter of profile.filters) {
+      if (filter.urlPattern) {
+        const urlPattern = filter.urlPattern;
+        const joiner = [];
+        for (let i = 0; i < urlPattern.length; ++i) {
+          let c = urlPattern.charAt(i);
+          if (SPECIAL_CHARS.indexOf(c) >= 0) {
+            c = '\\' + c;
+          } else if (c == '\\') {
+            c = '\\\\';
+          } else if (c == '*') {
+            c = '.*';
+          }
+          joiner.push(c);
+        }
+        delete filter.urlPattern;
+        filter.urlRegex = joiner.join('');
+      }
+    }
+  }
+}
+
 modHeader.factory('dataSource', function($mdToast) {
   var dataSource = {};
 
@@ -130,27 +155,7 @@ modHeader.factory('dataSource', function($mdToast) {
   if (localStorage.profiles) {
     dataSource.profiles = angular.fromJson(localStorage.profiles);
     for (let profile of dataSource.profiles) {
-      if (profile.filters) {
-        for (let filter of profile.filters) {
-          if (filter.urlPattern) {
-            const urlPattern = filter.urlPattern;
-            const joiner = [];
-            for (let i = 0; i < urlPattern.length; ++i) {
-              let c = urlPattern.charAt(i);
-              if (SPECIAL_CHARS.indexOf(c) >= 0) {
-                c = '\\' + c;
-              } else if (c == '\\') {
-                c = '\\\\';
-              } else if (c == '*') {
-                c = '.*';
-              }
-              joiner.push(c);
-            }
-            delete filter.urlPattern;
-            filter.urlRegex = joiner.join('');
-          }
-        }
-      }
+      fixProfile(profile);
     }
   } else {
     dataSource.profiles = [];
@@ -225,7 +230,6 @@ modHeader.factory('profileService', function(
 
   profileService.cloneProfile = function(profile) {
     var newProfile = angular.copy(profile);
-    var newTitle = newProfile.title;
     newProfile.title = 'Copy of ' + newProfile.title;
     dataSource.profiles.push(newProfile);
     updateSelectedProfile_();
@@ -288,6 +292,7 @@ modHeader.factory('profileService', function(
     }).then(function(importProfile) {
       try {
         angular.copy(angular.fromJson(importProfile), profile);
+        fixProfile(profile);
         $mdToast.show(
           $mdToast.simple()
             .content('Profile successfully import')
@@ -375,6 +380,9 @@ modHeader.factory('profileService', function(
             try {
               const serializedProfiles = items[key];
               const profiles = angular.fromJson(serializedProfiles);
+              for (let profile of profiles) {
+                fixProfile(profile);
+              }
               savedData.push({
                 'timeInMs': key,
                 'profiles': profiles,
